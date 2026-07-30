@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>WIDTH · V18 · 网页文字版（样板·中英）</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+:root{--bg0:#080B18;--bg1:#0D1224;--ink:#EAEEFB;--muted:#9AA7C7;--navy:#1E2761;--cobalt:#5B8DEF;--mint:#37E0C8;--amber:#F6B45A;--red:#FF6E8A;--green:#4FE0A6;
+ --disp:"Sora","PingFang SC","Microsoft YaHei",sans-serif;--body:"Space Grotesk","PingFang SC","Microsoft YaHei",sans-serif;--mono:"Space Mono",ui-monospace,Menlo,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#05060d;overflow:hidden;font-family:var(--body);color:var(--ink)}
+#viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+#stage{width:1280px;height:720px;position:relative;transform-origin:center;border-radius:8px;overflow:hidden;
+ background:radial-gradient(900px 520px at 12% -10%,rgba(91,141,239,.20),transparent 60%),radial-gradient(760px 460px at 100% 112%,rgba(55,224,200,.13),transparent 55%),linear-gradient(160deg,#080B18,#0D1224 55%,#080B18);box-shadow:0 40px 120px -30px #000}
+#stage::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.22;background-image:linear-gradient(rgba(154,167,199,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(154,167,199,.06) 1px,transparent 1px);background-size:64px 64px}
+.slide{position:absolute;inset:0;padding:58px 76px;display:none;flex-direction:column;justify-content:center}
+.slide.on{display:flex;animation:f .45s ease}@keyframes f{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.kick{font-family:var(--mono);font-size:14px;letter-spacing:.3em;text-transform:uppercase;color:var(--mint);font-weight:700;margin-bottom:14px}
+h1{font-family:var(--disp);font-weight:800;font-size:72px;line-height:1.05;letter-spacing:-.02em;color:#fff}
+h2{font-family:var(--disp);font-weight:800;font-size:40px;line-height:1.12;letter-spacing:-.01em;color:#fff;padding-left:18px;position:relative;margin-bottom:6px}
+h2::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:7px;border-radius:4px;background:linear-gradient(180deg,var(--cobalt),var(--mint))}
+.sub{font-family:var(--mono);color:var(--mint);font-size:19px;margin-top:20px}
+.lead{font-size:25px;line-height:1.55;max-width:60ch;margin-top:6px}
+.cols{display:grid;gap:18px;margin-top:24px}.c2{grid-template-columns:1fr 1fr}.c3{grid-template-columns:1fr 1fr 1fr}.c4{grid-template-columns:repeat(4,1fr)}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid rgba(140,153,192,.18);border-left:3px solid var(--cobalt);border-radius:14px;padding:16px 18px}
+.card.mint{border-left-color:var(--mint)}.card.amber{border-left-color:var(--amber)}.card.red{border-left-color:var(--red)}
+.card .no{font-family:var(--disp);font-weight:800;font-size:26px;color:var(--cobalt);opacity:.6}
+.card h3{font-family:var(--disp);font-size:21px;color:#fff;margin:2px 0 7px}
+.card p,.card li{font-size:15.5px;color:var(--muted);line-height:1.5}.card ul{margin-left:16px}
+.kpis{display:flex;gap:40px;margin-top:26px;flex-wrap:wrap}
+.kpi .n{font-family:var(--disp);font-weight:800;font-size:58px;line-height:1;background:linear-gradient(120deg,var(--cobalt),var(--mint));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.kpi .l{font-size:14px;color:var(--muted);margin-top:9px}
+table{border-collapse:separate;border-spacing:0;width:100%;margin-top:20px;font-size:16px}
+th,td{padding:9px 13px;text-align:left;border-bottom:1px solid rgba(140,153,192,.16);vertical-align:top}
+th{font-family:var(--disp);color:var(--mint);font-weight:600;font-size:14px;text-transform:uppercase;letter-spacing:.05em}
+td:first-child,th:first-child{color:#fff;font-weight:600}
+.win{color:var(--green)}.no2{color:var(--red)}
+.note{margin-top:18px;font-size:15px;color:var(--muted)}.note b{color:var(--mint)}
+.foot{position:absolute;left:76px;right:76px;bottom:20px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:rgba(154,167,199,.55)}
+#bar{position:absolute;left:0;bottom:0;height:3px;background:linear-gradient(90deg,var(--cobalt),var(--mint));transition:width .3s}
+#ui{position:fixed;top:16px;right:18px;display:flex;gap:8px;z-index:10}
+.btn{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink);background:rgba(13,18,36,.82);border:1px solid rgba(91,141,239,.5);border-radius:8px;padding:7px 12px;cursor:pointer}
+.btn:hover{border-color:var(--mint);color:var(--mint)}.btn .on{color:var(--mint)}
+#hint{position:fixed;bottom:14px;left:18px;font-family:var(--mono);font-size:11px;color:rgba(154,167,199,.5)}
+.z{position:absolute;top:0;bottom:0;width:22%;cursor:pointer;z-index:5}#pz{left:0}#nz{right:0}
+</style>
+</head>
+<body>
+<div id="ui"><button class="btn" onclick="tl()"><span id="lz" class="on">中</span> / <span id="le">EN</span></button><button class="btn" onclick="tf()">⤢</button></div>
+<div id="hint" data-zh="← → 翻页 · L 语言 · F 全屏 · 文字可选中复制" data-en="← → navigate · L language · F fullscreen · text is selectable">← → 翻页 · L 语言 · F 全屏 · 文字可选中复制</div>
+<div id="viewport"><div id="stage">
+ <div class="z" id="pz" onclick="go(-1)"></div><div class="z" id="nz" onclick="go(1)"></div>
+
+ <section class="slide"><div class="kick">WIDTH · DECISION INTELLIGENCE</div>
+   <h1 data-zh="一站式合规与风险决策智能平台" data-en="All-in-One Compliance & Risk Decision Intelligence Platform">一站式合规与风险决策智能平台</h1>
+   <div class="sub">2026</div></section>
+
+ <section class="slide"><div class="kick" data-zh="我们是谁" data-en="WHO WE ARE">我们是谁</div>
+   <h2 data-zh="从识别风险，走向处置风险" data-en="From identifying risk to resolving it">从识别风险，走向处置风险</h2>
+   <div class="lead" data-zh="WIDTH 是一个 AI 驱动的一站式合规与风险决策智能平台，把端到端合规与反欺诈运营、图智能与 AI Agent 执行整合到统一工作流，覆盖传统金融资产与数字资产。" data-en="WIDTH is an AI-driven, all-in-one compliance and risk decision-intelligence platform. It brings end-to-end compliance and anti-fraud operations, graph intelligence and AI-agent execution into one unified workflow — across both traditional and digital assets.">WIDTH 是一个 AI 驱动的一站式合规与风险决策智能平台，把端到端合规与反欺诈运营、图智能与 AI Agent 执行整合到统一工作流，覆盖传统金融资产与数字资产。</div></section>
+
+ <section class="slide"><div class="kick" data-zh="问题" data-en="THE PROBLEM">问题</div>
+   <h2 data-zh="合规团队正被工作量淹没" data-en="Compliance teams are drowning">合规团队正被工作量淹没</h2>
+   <div class="kpis">
+     <div class="kpi"><div class="n">10×</div><div class="l" data-zh="5 年内预警量增长" data-en="alert volume, last 5 years">5 年内预警量增长</div></div>
+     <div class="kpi"><div class="n" style="background:linear-gradient(120deg,var(--red),var(--amber));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">90%</div><div class="l" data-zh="误报率" data-en="false-positive rate">误报率</div></div>
+     <div class="kpi"><div class="n">5×</div><div class="l" data-zh="欺诈损失（Deepfake +700% 同比）" data-en="fraud loss (deepfake +700% YoY)">欺诈损失（Deepfake +700% 同比）</div></div>
+     <div class="kpi"><div class="n">Q×Q</div><div class="l" data-zh="监管逐季加码" data-en="regulation up every quarter">监管逐季加码</div></div></div>
+   <div class="note" data-zh="人员预算持平 · 合成身份 / 跑分网络 / 跨链洗钱 · 传统 AML 4–5 套工具拼装、无共享数据模型。" data-en="Flat headcount · synthetic identities / mule networks / cross-chain laundering · 4–5 legacy AML tools stacked, no shared data model.">人员预算持平 · 合成身份 / 跑分网络 / 跨链洗钱 · 传统 AML 4–5 套工具拼装、无共享数据模型。</div></section>
+
+ <section class="slide"><div class="kick" data-zh="答案" data-en="THE ANSWER">答案</div>
+   <h2 data-zh="WIDTH：一个平台 · 一个决策 · 一条审计链" data-en="WIDTH — One Platform · One Decision · One Audit Trail">WIDTH：一个平台 · 一个决策 · 一条审计链</h2>
+   <div class="cols c3">
+     <div class="card"><div class="no">01</div><h3 data-zh="一个平台" data-en="One Platform">一个平台</h3><p data-zh="KYC · KYB · 筛查 · 监测 · 调查 · 案件管理，端到端。" data-en="KYC · KYB · screening · monitoring · investigation · case management — end to end.">KYC · KYB · 筛查 · 监测 · 调查 · 案件管理，端到端。</p></div>
+     <div class="card mint"><div class="no">02</div><h3 data-zh="一个决策" data-en="One Decision">一个决策</h3><p data-zh="AI 提出建议、人工审批；75% 误报自动关闭；每次输出一致且符合政策。" data-en="AI proposes, a human approves; 75% of false positives auto-closed; consistent, policy-aligned outcomes.">AI 提出建议、人工审批；75% 误报自动关闭；每次输出一致且符合政策。</p></div>
+     <div class="card amber"><div class="no">03</div><h3 data-zh="一条审计链" data-en="One Audit Trail">一条审计链</h3><p data-zh="可供监管复盘；每个决策可解释、可引用；KYC→案件完整证据链，可直接导出。" data-en="Regulator-replayable; every decision explainable and citable; full KYC→case evidence trail, export-ready.">可供监管复盘；每个决策可解释、可引用；KYC→案件完整证据链，可直接导出。</p></div></div></section>
+
+ <section class="slide"><div class="kick" data-zh="围绕合规真实工作方式" data-en="HOW COMPLIANCE ACTUALLY WORKS">围绕合规真实工作方式</div>
+   <h2 data-zh="准入 → 监测 → 调查 → 决策" data-en="Onboard → Monitor → Investigate → Decide">准入 → 监测 → 调查 → 决策</h2>
+   <div class="cols c4">
+     <div class="card"><h3 data-zh="① 准入" data-en="① Onboard">① 准入</h3><p data-zh="KYC/KYB · 身份核验 · 生物识别" data-en="KYC/KYB · ID verification · biometrics">KYC/KYB · 身份核验 · 生物识别</p></div>
+     <div class="card mint"><h3 data-zh="② 监测" data-en="② Monitor">② 监测</h3><p data-zh="筛查 · 交易监测 · 欺诈检测 · KYT" data-en="Screening · transaction monitoring · fraud · KYT">筛查 · 交易监测 · 欺诈检测 · KYT</p></div>
+     <div class="card amber"><h3 data-zh="③ 调查" data-en="③ Investigate">③ 调查</h3><p data-zh="图智能 · UBO 发现 · 网络分析" data-en="Graph intelligence · UBO discovery · network analysis">图智能 · UBO 发现 · 网络分析</p></div>
+     <div class="card red"><h3 data-zh="④ 决策" data-en="④ Decide">④ 决策</h3><p data-zh="AI 审核员 · 案件管理 · SAR/STR 报送" data-en="AI Reviewer · case management · SAR/STR filing">AI 审核员 · 案件管理 · SAR/STR 报送</p></div></div></section>
+
+ <section class="slide"><div class="kick" data-zh="调查 · 图智能" data-en="INVESTIGATE · GRAPH INTELLIGENCE">调查 · 图智能</div>
+   <h2 data-zh="规则看到噪声，图看到网络" data-en="Where rules see noise, the graph sees the network">规则看到噪声，图看到网络</h2>
+   <div class="cols c2">
+     <div class="card red"><h3 data-zh="传统 AML" data-en="Traditional AML">传统 AML</h3><p data-zh="只看到 A→B 单笔交易；遗漏共享设备 / 地址 / UBO / 隐藏资金流。结果：90% 误报 + 漏检跑分网络。" data-en="Sees only A→B, a single transaction; misses shared devices / addresses / UBOs / hidden fund flows. Result: 90% false positives and missed mule rings.">只看到 A→B 单笔交易；遗漏共享设备 / 地址 / UBO / 隐藏资金流。结果：90% 误报 + 漏检跑分网络。</p></div>
+     <div class="card mint"><h3 data-zh="WIDTH 图智能" data-en="WIDTH Graph Intelligence">WIDTH 图智能</h3><p data-zh="看到 A→B→C→D→E 多跳实体网络；揭示洗钱网络、共享设备、共同 UBO、隐藏所有权链。无限多跳 · 统一实体解析 · 自动欺诈环检测。" data-en="Sees the A→B→C→D→E multi-hop entity network; surfaces laundering rings, shared devices, common UBOs, hidden ownership chains. Infinite multi-hop · unified entity resolution · automated fraud-loop detection.">看到 A→B→C→D→E 多跳实体网络；揭示洗钱网络、共享设备、共同 UBO、隐藏所有权链。无限多跳 · 统一实体解析 · 自动欺诈环检测。</p></div></div>
+   <div class="note" data-zh="与 <b>Quantexa 同级</b>的能力——但内建在一个平台里，而非百万美元的独立工具。" data-en="The <b>same capability as Quantexa</b> — but inside one platform, not a $M standalone tool.">与 <b>Quantexa 同级</b>的能力——但内建在一个平台里，而非百万美元的独立工具。</div></section>
+
+ <section class="slide"><div class="kick" data-zh="决策 · AI 审核员" data-en="DECIDE · AI REVIEWER">决策 · AI 审核员</div>
+   <h2 data-zh="你的 AI 合规团队：五个智能体" data-en="Your AI compliance team — five agents">你的 AI 合规团队：五个智能体</h2>
+   <div class="cols c3" style="grid-template-columns:repeat(5,1fr);gap:12px">
+     <div class="card"><div class="no">01</div><h3 style="font-size:17px" data-zh="提取" data-en="Extract">提取</h3><p style="font-size:13px" data-zh="上游信号→结构化证据" data-en="Signals → structured evidence">上游信号→结构化证据</p></div>
+     <div class="card"><div class="no">02</div><h3 style="font-size:17px" data-zh="政策规则" data-en="Policy">政策规则</h3><p style="font-size:13px" data-zh="应用辖区规则手册" data-en="Apply jurisdiction rulebook">应用辖区规则手册</p></div>
+     <div class="card mint"><div class="no">03</div><h3 style="font-size:17px" data-zh="推理" data-en="Reason">推理</h3><p style="font-size:13px" data-zh="贯穿案件·暴露缺口矛盾" data-en="Chain the case; find gaps">贯穿案件·暴露缺口矛盾</p></div>
+     <div class="card mint"><div class="no">04</div><h3 style="font-size:17px" data-zh="评估" data-en="Evaluate">评估</h3><p style="font-size:13px" data-zh="置信度·标记不确定·引用来源" data-en="Score, flag, cite sources">置信度·标记不确定·引用来源</p></div>
+     <div class="card amber"><div class="no">05</div><h3 style="font-size:17px" data-zh="优化" data-en="Refine">优化</h3><p style="font-size:13px" data-zh="建议处置·可审计复盘" data-en="Recommend, audit-replayable">建议处置·可审计复盘</p></div></div>
+   <div class="note" data-zh="每个决策 <b>&lt;2 分钟</b> · <b>75%</b> 误报自动关闭 · 每一步都可向检查官解释。" data-en="<b>&lt;2 minutes</b> per decision · <b>75%</b> of false positives auto-closed · every step explainable to your examiner.">每个决策 <b>&lt;2 分钟</b> · <b>75%</b> 误报自动关闭 · 每一步都可向检查官解释。</div></section>
+
+ <section class="slide"><div class="kick" data-zh="对比其他方案" data-en="AGAINST THE ALTERNATIVES">对比其他方案</div>
+   <h2 data-zh="端到端，且亚太原生" data-en="End-to-end, and APAC-native">端到端，且亚太原生</h2>
+   <table>
+     <tr><th data-zh="维度" data-en="Dimension">维度</th><th data-zh="传统 AML" data-en="Legacy AML">传统 AML</th><th data-zh="单点工具" data-en="Point tool">单点工具</th><th data-zh="实体解析专家" data-en="ER specialist">实体解析专家</th><th>WIDTH</th></tr>
+     <tr><td data-zh="覆盖范围" data-en="Scope">覆盖范围</td><td data-zh="监测为主、准入有限" data-en="Monitoring, limited onboarding">监测为主、准入有限</td><td data-zh="仅准入" data-en="Onboarding only">仅准入</td><td data-zh="仅图谱调查" data-en="Graph only">仅图谱调查</td><td class="win" data-zh="KYC+KYB+筛查+监测+案件+图谱+AI 审核" data-en="KYC+KYB+screening+TM+case+graph+AI Reviewer">KYC+KYB+筛查+监测+案件+图谱+AI 审核</td></tr>
+     <tr><td data-zh="AI 定位" data-en="AI posture">AI 定位</td><td data-zh="叠加在旧产品上" data-en="Overlay on legacy">叠加在旧产品上</td><td data-zh="AI 原生但窄" data-en="AI-native but narrow">AI 原生但窄</td><td data-zh="图 ML、无智能体层" data-en="Graph ML, no agents">图 ML、无智能体层</td><td class="win" data-zh="AI 原生 + 智能体化，端到端" data-en="AI-native & agentic, end-to-end">AI 原生 + 智能体化，端到端</td></tr>
+     <tr><td data-zh="监管适配" data-en="Regulatory">监管适配</td><td data-zh="US/EU 出身、后补 APAC" data-en="US/EU heritage, retrofit APAC">US/EU 出身、后补 APAC</td><td data-zh="KYC 视角" data-en="KYC-vendor lens">KYC 视角</td><td data-zh="仅企业级" data-en="Enterprise-tier only">仅企业级</td><td class="win" data-zh="APAC 原生：MAS/HKMA/BNM/OJK 为首要设计目标" data-en="APAC-native: MAS/HKMA/BNM/OJK by design">APAC 原生：MAS/HKMA/BNM/OJK 为首要设计目标</td></tr></table></section>
+
+ <section class="slide"><div class="kick" data-zh="下一步" data-en="NEXT STEPS">下一步</div>
+   <h2 data-zh="选择适合你团队的方式" data-en="Pick the one that fits your team">选择适合你团队的方式</h2>
+   <div class="cols c3">
+     <div class="card"><h3 data-zh="① 7 天试点" data-en="① 7-Day Pilot">① 7 天试点</h3><p data-zh="共同定义成功指标 · 生产级环境 · 第 7 天做 Go / No-Go。" data-en="We scope success metrics · production-grade environment · go / no-go at day 7.">共同定义成功指标 · 生产级环境 · 第 7 天做 Go / No-Go。</p></div>
+     <div class="card mint"><h3 data-zh="② RFP / 安全审查包" data-en="② RFP / Security Pack">② RFP / 安全审查包</h3><p data-zh="完整供应商问卷 · ISO 27001 证据、VAPT 摘要 · 48 小时内返回。" data-en="Full vendor questionnaire · ISO 27001 evidence, VAPT summary · returned within 48h.">完整供应商问卷 · ISO 27001 证据、VAPT 摘要 · 48 小时内返回。</p></div>
+     <div class="card amber"><h3 data-zh="③ 高管简报" data-en="③ Executive Briefing">③ 高管简报</h3><p data-zh="60 分钟闭门会 · CEO 对你的 CTO / CCO · 战略与路线图深聊。" data-en="60-minute closed-door session · our CEO with your CTO / CCO · strategy & roadmap.">60 分钟闭门会 · CEO 对你的 CTO / CCO · 战略与路线图深聊。</p></div></div>
+   <div class="sub">sales@width.com · www.width.com</div></section>
+
+ <div class="foot"><span data-zh="WIDTH · 标准 Deck V18 · 网页文字版（样板）" data-en="WIDTH · Standard Deck V18 · web-text (sample)">WIDTH · 标准 Deck V18 · 网页文字版（样板）</span><span><b id="cur">1</b> / <span id="tot"></span></span></div>
+ <div id="bar"></div>
+</div></div>
+<script>
+const st=document.getElementById('stage');function fit(){st.style.transform='scale('+Math.min(innerWidth/1280,innerHeight/720)+')';}addEventListener('resize',fit);fit();
+const S=[...document.querySelectorAll('.slide')];let i=0,lang='zh';document.getElementById('tot').textContent=S.length;
+function show(){S.forEach((s,k)=>s.classList.toggle('on',k===i));document.getElementById('cur').textContent=i+1;document.getElementById('bar').style.width=((i+1)/S.length*100)+'%';}
+function go(d){i=Math.max(0,Math.min(S.length-1,i+d));show();}
+function apply(){document.querySelectorAll('[data-zh]').forEach(e=>{const v=e.getAttribute('data-'+lang);if(v!=null)e.innerHTML=v;});document.getElementById('lz').classList.toggle('on',lang=='zh');document.getElementById('le').classList.toggle('on',lang=='en');document.documentElement.lang=lang;}
+function tl(){lang=lang=='zh'?'en':'zh';apply();}
+function tf(){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}
+addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(e.key=='ArrowRight'||e.key==' '){go(1);e.preventDefault();}else if(e.key=='ArrowLeft'){go(-1);}else if(k=='l')tl();else if(k=='f')tf();else if(e.key=='Home'){i=0;show();}else if(e.key=='End'){i=S.length-1;show();}});
+apply();show();
+</script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>WIDTH · Standard Deck V18（在线 · 中英）</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+:root{--cobalt:#5B8DEF;--mint:#37E0C8;--muted:#9AA7C7;--mono:"Space Mono",ui-monospace,Menlo,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#05060d;overflow:hidden;font-family:var(--mono);color:#EAEEFB}
+#wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(1100px 600px at 15% -10%,rgba(91,141,239,.14),transparent 60%),radial-gradient(900px 520px at 100% 110%,rgba(55,224,200,.10),transparent 55%),#070a14}
+#frame{position:relative;aspect-ratio:16/9;width:min(96vw,calc(96vh*16/9));
+  border-radius:10px;overflow:hidden;box-shadow:0 30px 90px -24px #000,0 0 0 1px rgba(91,141,239,.25)}
+#img{width:100%;height:100%;object-fit:contain;display:block;background:#fff;transition:opacity .18s}
+#img.load{opacity:.35}
+.zone{position:absolute;top:0;bottom:0;width:22%;cursor:pointer;z-index:3}
+#pz{left:0}#nz{right:0}
+#ui{position:fixed;top:16px;right:18px;display:flex;gap:8px;z-index:40}
+.btn{font-size:13px;font-weight:700;color:#EAEEFB;background:rgba(13,18,36,.82);border:1px solid rgba(91,141,239,.5);border-radius:8px;padding:7px 12px;cursor:pointer;backdrop-filter:blur(6px)}
+.btn:hover{border-color:var(--mint);color:var(--mint)} .btn .on{color:var(--mint)}
+#counter{position:fixed;bottom:14px;right:20px;font-size:12px;color:rgba(154,167,199,.75);z-index:10}
+#hint{position:fixed;bottom:14px;left:20px;font-size:11px;color:rgba(154,167,199,.5);z-index:10}
+#bar{position:fixed;left:0;bottom:0;height:3px;background:linear-gradient(90deg,var(--cobalt),var(--mint));z-index:10;transition:width .25s}
+/* 缩略图总览 */
+#grid{position:fixed;inset:0;background:rgba(5,6,13,.97);z-index:20;display:none;grid-template-columns:repeat(6,1fr);gap:10px;padding:26px;overflow:auto}
+#grid.on{display:grid}
+#grid img{width:100%;border-radius:6px;border:1px solid rgba(140,153,192,.25);cursor:pointer}
+#grid img:hover{border-color:var(--mint)}
+/* 本页演示视频 */
+.vbar{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);display:flex;gap:8px;align-items:center;z-index:12}
+.vbar .lab{font-size:12px;color:var(--muted);margin-right:2px}
+.vbtn{font-size:12px;font-weight:700;color:#04223a;background:linear-gradient(120deg,var(--cobalt),var(--mint));border:0;border-radius:20px;padding:7px 15px;cursor:pointer;box-shadow:0 6px 20px -6px rgba(55,224,200,.55)}
+.vbtn:hover{filter:brightness(1.08)}
+#vmodal{position:fixed;inset:0;background:rgba(3,4,10,.93);z-index:30;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+#vmodal.on{display:flex}
+#vmodal video{max-width:90vw;max-height:82vh;border-radius:10px;box-shadow:0 30px 90px -20px #000;background:#000}
+#vmodal .vtitle{font-size:13px;color:var(--mint);letter-spacing:.05em}
+#vmodal .vclose{position:absolute;top:18px;right:22px;font-size:14px;font-weight:700;color:#EAEEFB;background:rgba(13,18,36,.85);border:1px solid rgba(91,141,239,.5);border-radius:8px;padding:7px 13px;cursor:pointer}
+#vmodal .vp{display:flex;flex-direction:column;gap:12px;max-width:90vw}
+#vmodal video{max-width:90vw;max-height:74vh;border-radius:10px;box-shadow:0 30px 90px -20px #000;background:#000;cursor:pointer}
+.vctrl{display:flex;align-items:center;gap:14px;background:rgba(13,18,36,.9);border:1px solid rgba(91,141,239,.3);border-radius:12px;padding:11px 16px}
+.vpp{font-size:14px;font-weight:700;color:#EAEEFB;background:transparent;border:1px solid rgba(91,141,239,.5);border-radius:8px;padding:6px 12px;cursor:pointer;min-width:42px}
+.vpp:hover{border-color:var(--mint);color:var(--mint)}
+.vprog{position:relative;flex:1;height:12px;background:rgba(140,153,192,.28);border-radius:7px;cursor:pointer;touch-action:none}
+.vplayed{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,var(--cobalt),var(--mint));border-radius:7px}
+.vhandle{position:absolute;top:50%;left:0;transform:translate(-50%,-50%);width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.6);pointer-events:none}
+.vtime{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:96px;text-align:right}
+#vmodal .vstage{position:relative;display:inline-block;align-self:center}
+.vcap{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);max-width:88%;text-align:center;font-family:var(--disp);font-size:20px;line-height:1.45;color:#fff;background:rgba(3,5,12,.72);padding:7px 16px;border-radius:9px;display:none;pointer-events:none;text-shadow:0 1px 4px #000}
+.vpp.act{background:linear-gradient(120deg,var(--cobalt),var(--mint));color:#04223a;border-color:transparent}
+</style>
+</head>
+<body>
+<div id="ui">
+  <button class="btn" onclick="toggleLang()"><span id="lz" class="on">中</span> / <span id="le">EN</span></button>
+  <button class="btn" onclick="toggleGrid()" title="overview">⊞</button>
+  <button class="btn" onclick="toggleFull()">⤢</button>
+</div>
+<div id="wrap">
+  <div id="frame">
+    <img id="img" alt="slide">
+    <div class="zone" id="pz" onclick="go(-1)"></div>
+    <div class="zone" id="nz" onclick="go(1)"></div>
+  </div>
+</div>
+<div id="grid"></div>
+<div class="vbar" id="vbar"></div>
+<div id="vmodal">
+  <button class="vclose" onclick="closeVideo()" data-zh="✕ 关闭" data-en="✕ Close">✕ 关闭</button>
+  <div class="vtitle" id="vtitle"></div>
+  <div class="vp">
+    <div class="vstage"><video id="vplayer" playsinline loop muted></video><div class="vcap" id="vcap"></div></div>
+    <div class="vctrl">
+      <button class="vpp" id="vpp" title="play/pause">⏸</button>
+      <div class="vprog" id="vprog"><div class="vplayed" id="vplayed"></div><div class="vhandle" id="vhandle"></div></div>
+      <span class="vtime" id="vtime">0:00 / 0:00</span>
+      <button class="vpp" id="vcc" title="captions">字幕</button>
+      <button class="vpp" id="vspeed" title="speed">1×</button>
+    </div>
+  </div>
+</div>
+<div id="bar"></div>
+<div id="counter"><b id="cur">1</b> / <span id="tot">32</span></div>
+<div id="hint" data-zh="← → 翻页 · ⊞ 总览 · L 语言 · F 全屏" data-en="← → navigate · ⊞ overview · L language · F fullscreen">← → 翻页 · ⊞ 总览 · L 语言 · F 全屏</div>
+
+<script>
+const N=32, lang0='zh';
+// 中英页序差异：EN 为规范序，ZH 仅 5/28/29 三处互换
+const ZHMAP={5:29,28:5,29:28};
+// 本页演示视频（canonical 页 → 压制后的 assets/video/vN.mp4）
+const VID={7:[{s:'v1',zh:'KYC 流程',en:'KYC flow'},{s:'v2',zh:'KYB 流程',en:'KYB flow'}],
+  8:[{s:'v3',zh:'KYC 工作流',en:'KYC workflow'},{s:'v4',zh:'KYB 工作流',en:'KYB workflow'}],
+  9:[{s:'v5',zh:'监测演示',en:'Monitoring'}],11:[{s:'v6',zh:'图谱调查',en:'Graph investigation'}],
+  12:[{s:'v7',zh:'AI 审核员',en:'AI Reviewer'}],14:[{s:'v8',zh:'WIDTH Labs',en:'WIDTH Labs'}]};
+let lang=lang0, i=1;
+const img=document.getElementById('img');
+document.getElementById('tot').textContent=N;
+const pad=n=>String(n).padStart(2,'0');
+function srcFor(idx,lg){const real=(lg==='zh')?(ZHMAP[idx]||idx):idx;return `assets/${lg}/s-${pad(real)}.png`;}
+function preload(idx){[idx-1,idx+1].forEach(k=>{if(k>=1&&k<=N){const p=new Image();p.src=srcFor(k,lang);}});}
+function show(){
+  img.classList.add('load');
+  const im=new Image();
+  im.onload=()=>{img.src=im.src;img.classList.remove('load');};
+  im.src=srcFor(i,lang);
+  document.getElementById('cur').textContent=i;
+  document.getElementById('bar').style.width=(i/N*100)+'%';
+  preload(i);
+  renderVbar();
+}
+function renderVbar(){const vs=VID[i],b=document.getElementById('vbar');
+  if(!vs){b.innerHTML='';return;}
+  const lab=lang==='zh'?'本页演示':'Demos';
+  b.innerHTML='<span class="lab">'+lab+'</span>'+vs.map(v=>`<button class="vbtn" onclick="openVideo('${v.s}','${v[lang]||v.en}')">▶ ${v[lang]||v.en}</button>`).join('');}
+const vplayer=document.getElementById('vplayer');
+function openVideo(s,title){const m=document.getElementById('vmodal');
+  vplayer.src='assets/video/'+s+'.mp4';vplayer.currentTime=0;vplayer.playbackRate=1;currentVid=s;
+  document.getElementById('vspeed').textContent='1×';spIdx=0;
+  document.getElementById('vtitle').textContent=title;m.classList.add('on');vplayer.play().catch(()=>{});}
+function closeVideo(){document.getElementById('vmodal').classList.remove('on');
+  vplayer.pause();vplayer.removeAttribute('src');vplayer.load();}
+// —— 自定义时间轴（可点可拖）——
+function vfmt(t){t=Math.max(0,t|0);return (t/60|0)+':'+String(t%60).padStart(2,'0');}
+function vUpdate(){const d=vplayer.duration||0,c=vplayer.currentTime||0,pct=d?c/d*100:0;
+  document.getElementById('vplayed').style.width=pct+'%';
+  document.getElementById('vhandle').style.left=pct+'%';
+  document.getElementById('vtime').textContent=vfmt(c)+' / '+vfmt(d);updateCaption();}
+vplayer.addEventListener('timeupdate',vUpdate);
+vplayer.addEventListener('loadedmetadata',vUpdate);
+vplayer.addEventListener('play',()=>document.getElementById('vpp').textContent='⏸');
+vplayer.addEventListener('pause',()=>document.getElementById('vpp').textContent='▶');
+document.getElementById('vpp').onclick=()=>{vplayer.paused?vplayer.play():vplayer.pause();};
+vplayer.addEventListener('click',()=>{vplayer.paused?vplayer.play():vplayer.pause();});
+let SPD=[1,1.5,2,0.5],spIdx=0;
+document.getElementById('vspeed').onclick=()=>{spIdx=(spIdx+1)%SPD.length;vplayer.playbackRate=SPD[spIdx];document.getElementById('vspeed').textContent=SPD[spIdx]+'×';};
+const vprog=document.getElementById('vprog');let scrub=false;
+function seekAt(x){const r=vprog.getBoundingClientRect();let p=(x-r.left)/r.width;p=Math.min(1,Math.max(0,p));if(vplayer.duration){vplayer.currentTime=p*vplayer.duration;vUpdate();}}
+vprog.addEventListener('pointerdown',e=>{scrub=true;try{vprog.setPointerCapture(e.pointerId);}catch(_){}seekAt(e.clientX);e.preventDefault();});
+vprog.addEventListener('pointermove',e=>{if(scrub)seekAt(e.clientX);});
+addEventListener('pointerup',()=>{scrub=false;});
+// —— 字幕（第一稿·基于视频实际画面 + 上下文；默认关，点"字幕"开）——
+const CUES={
+ v1:[ {t0:0,t1:7,zh:'个人 KYC 开户：按司法辖区加载对应尽职调查要求',en:'Individual KYC — jurisdiction selected, due-diligence rules loaded'},
+   {t0:7,t1:15,zh:'证件核验：OCR 智能识别并自动抽取字段',en:'Document verification — OCR extracts every field automatically'},
+   {t0:15,t1:22,zh:'实时处理：上传、OCR 与校验多步并行',en:'Real-time pipeline — upload, OCR and validation run in parallel'},
+   {t0:22,t1:33,zh:'个人信息自动回填，客户仅需核对确认',en:'Applicant details pre-filled from the document — the user only confirms'},
+   {t0:33,t1:41,zh:'活体检测 + 人脸比对，阻断深伪与照片攻击',en:'Liveness detection with face match — defeats deepfakes and spoofing'},
+   {t0:41,t1:50,zh:'邮箱验证完成，端到端开户不足 90 秒',en:'Email verified — end-to-end onboarding in under 90 seconds'} ],
+ v2:[ {t0:0,t1:12,zh:'企业 KYB 开户：选择主体类型以匹配核验路径',en:'Business KYB — entity type sets the verification path'},
+   {t0:12,t1:26,zh:'录入注册地/经营地、注册信息与联系资料',en:'Capture incorporation & operating jurisdictions, registration and contacts'},
+   {t0:26,t1:40,zh:'确认注册成立日期，完善企业档案',en:'Confirm incorporation date; complete the corporate profile'},
+   {t0:40,t1:58,zh:'UBO 与股东穿透：持股比例、任命，层层还原至自然人',en:'UBO & shareholder drill-down — ownership, appointments, traced to natural persons'},
+   {t0:58,t1:82,zh:'上传佐证：注册证书、身份证件、银行流水、活体自拍',en:'Upload evidence — incorporation cert, ID, bank statement, live selfie'},
+   {t0:82,t1:112,zh:'逐份文件复核确认，留存可审计证据',en:'Each document reviewed and confirmed — audit evidence retained'},
+   {t0:112,t1:136,zh:'PEP 与关联方筛查问卷，完成企业准入',en:'PEP & associate screening — corporate onboarding complete'} ],
+ v3:[ {t0:0,t1:14,zh:'低代码工作流：以「事件→规则→动作→决策」编排开户',en:'Low-code workflow — onboarding as Event → Rule → Action → Decision'},
+   {t0:14,t1:34,zh:'拖拽预置节点，业务人员零代码即可搭建',en:'Drag pre-built nodes — business teams build it with zero code'},
+   {t0:34,t1:50,zh:'证件、活体、筛查、人工复核可任意编排组合',en:'Sequence document, liveness, screening and manual review freely'},
+   {t0:50,t1:62,zh:'一键发布，规则变更即时生效',en:'Publish in one click — rule changes take effect instantly'} ],
+ v4:[ {t0:0,t1:14,zh:'同一画布编排企业准入工作流',en:'The same canvas orchestrates the corporate-onboarding workflow'},
+   {t0:14,t1:38,zh:'企业核验、UBO 穿透与董事 KYC 一体编排',en:'KYB verification, UBO drill-down and director KYC in one flow'},
+   {t0:38,t1:56,zh:'按风险分级配置 CDD/EDD 规则与自动化动作',en:'Configure risk-based CDD/EDD rules and automated actions'},
+   {t0:56,t1:69,zh:'发布上线，与 KYC 共享同一客户数据模型',en:'Publish — sharing a single customer data model with KYC'} ],
+ v5:[ {t0:0,t1:12,zh:'名单筛查：制裁、PEP 与不利媒体多源比对',en:'Screening — sanctions, PEP and adverse media across multiple sources'},
+   {t0:12,t1:26,zh:'模糊匹配捕捉别名变体，智能降噪压降误报',en:'Fuzzy matching catches alias variants; de-noising cuts false positives'},
+   {t0:26,t1:38,zh:'交易监测：规则与情景模型实时打分',en:'Transaction monitoring — rules and scenario models score in real time'},
+   {t0:38,t1:43,zh:'命中自动建案，进入统一处置闭环',en:'Hits auto-open a case into the unified disposition loop'} ],
+ v6:[ {t0:0,t1:16,zh:'图智能：WIDTH Agent 在实体关系图谱上展开调查',en:'Graph Intelligence — the WIDTH Agent works the entity graph'},
+   {t0:16,t1:36,zh:'AI 沿多跳扩展网络：交易对手、设备、钱包',en:'The agent expands the network multi-hop — counterparties, devices, wallets'},
+   {t0:36,t1:56,zh:'自动圈定可疑子图，标注 typology 与关键发现',en:'It isolates the suspicious sub-graph and annotates typology and findings'},
+   {t0:56,t1:78,zh:'生成处置建议，逐条引用证据来源',en:'It drafts a disposition, citing every source of evidence'},
+   {t0:78,t1:91,zh:'穿透资金路径与金额，还原完整链路',en:'Fund flows and amounts traced across the full chain'} ],
+ v7:[ {t0:0,t1:9,zh:'AI 审核员：一键发起自动化审查',en:'AI Reviewer — automated review launched in one click'},
+   {t0:9,t1:22,zh:'九大维度并行评估：筛查·身份·文件·行为·网络·地理·敞口·财务·股权',en:'Nine dimensions evaluate in parallel — screening, identity, documents, behavior, network, geography, exposure, financials, ownership'},
+   {t0:22,t1:34,zh:'规则评估与置信度分布，全程留痕可复盘',en:'Rule evaluation and confidence distribution — fully logged and replayable'},
+   {t0:34,t1:45,zh:'输出结论：TRUE_POSITIVE，建议升级',en:'Verdict — TRUE_POSITIVE, escalation recommended'},
+   {t0:45,t1:51,zh:'高风险由合规官复核签核：AI 提议、人定案',en:'High risk requires a compliance officer to sign off — AI proposes, a human decides'} ],
+ v8:[ {t0:0,t1:12,zh:'WIDTH Labs：持续演进的能力实验室',en:'WIDTH Labs — a continuously evolving capability lab'},
+   {t0:12,t1:28,zh:'名称筛查 · Know Your Agent：跨语种、可审计、无黑箱',en:'Name Screening · Know Your Agent — cross-lingual, auditable, no black box'},
+   {t0:28,t1:44,zh:'数字资产情报：链上地址风险分级，上下游 9 跳追踪',en:'Digital Asset Intelligence — on-chain address risk tiers, 9-hop up/downstream tracing'},
+   {t0:44,t1:54,zh:'DeFi 防护：数步接入，AI 合规智能体增强调查',en:'DeFi Shield — onboarded in a few steps, investigations augmented by an AI compliance agent'} ]
+};
+let currentVid=null, capsOn=false;
+const vcap=document.getElementById('vcap');
+function updateCaption(){
+  if(!capsOn||!currentVid||!CUES[currentVid]){vcap.style.display='none';return;}
+  const c=vplayer.currentTime, q=CUES[currentVid].find(x=>c>=x.t0&&c<x.t1);
+  if(q){vcap.textContent=q[lang]||q.en;vcap.style.display='block';}else{vcap.style.display='none';}
+}
+document.getElementById('vcc').onclick=function(){capsOn=!capsOn;this.classList.toggle('act',capsOn);updateCaption();};
+function go(d){i=Math.max(1,Math.min(N,i+d));show();}
+function toggleLang(){lang=lang==='zh'?'en':'zh';
+  document.getElementById('lz').classList.toggle('on',lang==='zh');
+  document.getElementById('le').classList.toggle('on',lang==='en');
+  document.documentElement.lang=lang;
+  document.getElementById('hint').textContent=document.getElementById('hint').getAttribute('data-'+lang);
+  show();}
+function toggleFull(){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}
+// 总览
+const grid=document.getElementById('grid');let gridBuilt=false;
+function buildGrid(){grid.innerHTML='';for(let k=1;k<=N;k++){const g=document.createElement('img');g.src=srcFor(k,lang);g.onclick=()=>{i=k;show();toggleGrid();};grid.appendChild(g);}gridBuilt=true;}
+function toggleGrid(){const on=grid.classList.toggle('on');if(on){buildGrid();}}
+addEventListener('keydown',e=>{const k=e.key.toLowerCase();
+  if(document.getElementById('vmodal').classList.contains('on')){if(e.key==='Escape')closeVideo();return;}
+  if(grid.classList.contains('on')&&e.key==='Escape'){toggleGrid();return;}
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){go(1);e.preventDefault();}
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){go(-1);}
+  else if(k==='l'){toggleLang();}else if(k==='f'){toggleFull();}else if(k==='o'){toggleGrid();}
+  else if(e.key==='Home'){i=1;show();}else if(e.key==='End'){i=N;show();}});
+show();
+</script>
+</body>
+</html>
